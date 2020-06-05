@@ -1,0 +1,22 @@
+
+
+trigger:
+  batch: true
+  branches:
+    include: 
+    - '*'
+  paths:
+    include: 
+    - pipelines/build/
+    
+pool:
+  name: laptop-home
+
+variables:
+- template: ../common/variable.yml
+  parameters:
+      projectName: build_agent
+
+
+steps:
+- template: ../common/az_devops.yml
