@@ -1,0 +1,43 @@
+steps:
+- bash: |
+    echo "Variable Details:" \
+    echo "Project Name-"   $(projectName)
+  displayName: 'Variable Information'
+
+- bash: |
+    cd pipelines/build/$(projectName)
+    docker build -t $(registryServerName)/elastic-docker/$(imageName):$(imageTag) \
+        .
+  failOnStderr: true
+  displayName: 'docker build'
+
+- task: Docker@2
+  displayName: Login to Registry
+  inputs:
+    containerRegistry: $(XRegistry)
+    command: 'login'
+    addPipelineData: false
+
+- bash: |
+    docker push $(XRegistry)/docker/$(imageName):$(imageTag)
+  failOnStderr: true
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/features/build'))
+  displayName: 'docker push'
+
+- bash: |
+    docker system info
+  failOnStderr: true
+  condition: always()
+  displayName: 'docker system info'
+
+- task: Docker@2
+  displayName: Logout to  Registry
+  inputs:
+    containerRegistry: $(XRegistry)
+    command: 'logout'
+    addPipelineData: false
+
+
+- publish: $(build.artifactStagingDirectory)
+  artifact: build-artifact
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/features/build'))
