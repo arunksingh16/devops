@@ -1,0 +1,6 @@
+variables:
+  XRegistry: 'x-docker'
+  registryServerName: 'xcompany.com'
+  projectName: ${{ parameters.projectName }}
+  imageName: ${{ parameters.projectName }}
+  imageTag: $(build.buildId)
