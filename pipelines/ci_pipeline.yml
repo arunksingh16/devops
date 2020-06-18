@@ -12,7 +12,6 @@ pool:
 
 variables:
   tag: '$(Build.BuildId)'
-  rel_name: eck-'$(Build.BuildId)'
   k_namespace: dev
   k_ServiceEndpoint: dev_end_point
 
