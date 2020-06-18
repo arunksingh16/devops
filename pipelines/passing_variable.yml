@@ -1,0 +1,23 @@
+
+steps:
+
+  # Sets FOO to be "some value" in the script and the next ones
+  - bash: |
+      FOO="some value"
+      echo "##vso[task.setvariable variable=FOO]$FOO"
+
+  # Using the $() syntax, the value is replaced inside Azure Pipelines before being submitted to the script task
+  - bash: |
+      echo "$(FOO)"
+
+  # The same variable is also present as environmental variable in scripts; here the variable expansion happens within bash
+  - bash: |
+      echo "$FOO"
+      
+   - bash: |
+      echo "##vso[task.setvariable variable=TARGET_FOLDER]$(Pipeline.Workspace)/target"
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: $(Build.SourcesDirectory)
+      # Note the use of the variable TARGET_FOLDER
+      targetFolder: $(TARGET_FOLDER)/myfolder
