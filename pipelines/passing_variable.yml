@@ -1,4 +1,4 @@
-
+# https://medium.com/microsoftazure/how-to-pass-variables-in-azure-pipelines-yaml-tasks-5c81c5d31763
 steps:
 
   # Sets FOO to be "some value" in the script and the next ones
@@ -13,9 +13,12 @@ steps:
   # The same variable is also present as environmental variable in scripts; here the variable expansion happens within bash
   - bash: |
       echo "$FOO"
-      
-   - bash: |
+ 
+ # You can also use the $(FOO) syntax inside task definitions. For example, these steps copy files to a folder whose name is defined as variable:
+ 
+  - bash: |
       echo "##vso[task.setvariable variable=TARGET_FOLDER]$(Pipeline.Workspace)/target"
+  
   - task: CopyFiles@2
     inputs:
       sourceFolder: $(Build.SourcesDirectory)
