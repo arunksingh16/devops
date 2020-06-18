@@ -1,0 +1,37 @@
+jobs:
+  
+  - job: firstjob
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    steps:
+
+      # Sets FOO to "some value", then mark it as output variable
+      - bash: |
+          FOO="some value"
+          echo "##vso[task.setvariable variable=FOO;isOutput=true]$FOO"
+        name: mystep
+
+      # Show output variable in the same job
+      - bash: |
+          echo "$(mystep.FOO)"
+  
+  - job: secondjob
+    # Need to explicitly mark the dependency
+    dependsOn: firstjob
+    variables:
+      # Define the variable FOO from the previous job
+      # Note the use of single quotes!
+      FOO: $[ dependencies.firstjob.outputs['mystep.FOO'] ]
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    steps:
+
+      # The variable is now available for expansion within the job
+      - bash: |
+          echo "$(FOO)"
+
+      # To send the variable to the script as environmental variable, it needs to be set in the env dictionary
+      - bash: |
+          echo "$FOO"
+        env:
+          FOO: $(FOO)
