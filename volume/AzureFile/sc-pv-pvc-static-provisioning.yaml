@@ -17,17 +17,53 @@ parameters:
 #available values: Standard_LRS, Standard_GRS,  Premium_LRS, Premium_ZRS etc
 
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-custom
+  labels:
+    usage: pv-custom
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: customAzureFile
+  azureFile:
+    secretName: azure-secret
+    shareName: azure-secret-share
+    readOnly: false
+  mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1000
+  - gid=1000
+  - mfsymlinks
+  - nobrl
+---
 # PVC
 
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-azurefile
+  name: custom-pvc
+  labels:
+    usage: pvc-custom
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      usage: pv-custom
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
+  volumeName: vol1
   storageClassName: customAzureFile
+status:
+  phase: Bound
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
 ---
