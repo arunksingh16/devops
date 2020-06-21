@@ -1,6 +1,6 @@
 #!/bin/bash
 
-helm upgrade --install eck-test . --set clusterName=elasticsearch-test,KibanaClusterName=kibana-test --wait --timeout=30m -n dev
+helm upgrade --install eck-test . --set clusterName=elasticsearch-test,KibanaClusterName=kibana-test --debug --wait --timeout=30m -n dev
 
 kubectl get pods -n dev -o json | jq -r '.items[].status.phase' | grep Pending 
 
