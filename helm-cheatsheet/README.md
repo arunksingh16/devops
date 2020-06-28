@@ -1,4 +1,4 @@
-#  Helm 3 chear sheet 
+#  Helm 3 cheat sheet 
 
 
 
