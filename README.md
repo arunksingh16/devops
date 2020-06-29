@@ -20,3 +20,8 @@ remove all docker images
 ```
 docker rmi $(docker images -q)
 ```
+
+dangling vol
+```
+docker volume ls -qf dangling=true | xargs -r docker volume rm
+```
