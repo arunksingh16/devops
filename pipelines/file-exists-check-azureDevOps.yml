@@ -1,0 +1,7 @@
+#
+- bash: |
+    if [ -f your-file-here.txt ]; then
+      echo "##vso[task.setVariable variable=FILEEXISTS]true"
+    fi
+- task: Foo@1
+  condition: eq(variables.FILEEXISTS, 'true')
