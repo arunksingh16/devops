@@ -5,3 +5,8 @@
     fi
 - task: Foo@1
   condition: eq(variables.FILEEXISTS, 'true')
+
+### one more option to fail your pipeline
+# echo "##vso[task.complete result=Failed;]DONE"
+# You have to following options as result value for your task:
+# Succeeded SucceededWithIssues Failed Cancelled Skipped    or set script status to exit 1
