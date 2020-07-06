@@ -133,3 +133,21 @@ wordpress/
                       # will generate valid Kubernetes manifest files.
   templates/NOTES.txt # OPTIONAL: A plain text file containing short usage notes
 ```
+
+# Helm Built-in Objects
+
+https://helm.sh/docs/chart_template_guide/builtin_objects/
+
+Release: This object describes the release itself. It has several objects inside of it:
+
+Release.Name: The release name
+
+Release.Namespace: The namespace to be released into (if the manifest doesn’t override)
+
+Release.IsUpgrade: This is set to true if the current operation is an upgrade or rollback.
+
+Release.IsInstall: This is set to true if the current operation is an install.
+
+Release.Revision: The revision number for this release. On install, this is 1, and it is incremented with each upgrade and rollback.
+
+Release.Service: The service that is rendering the present template. On Helm, this is always Helm.
