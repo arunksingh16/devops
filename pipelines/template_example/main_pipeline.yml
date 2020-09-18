@@ -1,7 +1,7 @@
 trigger: none
 
 #name of pipeline run
-name: LoadingApp-${{ parameters.applicationName }} - $(Rev:.r)
+name: LoadingApp-${{ parameters.SelectEnv }} - $(Rev:.r)
 
 parameters:
  - name: SelectEnv
