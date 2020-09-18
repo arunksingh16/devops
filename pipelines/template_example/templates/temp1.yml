@@ -1,0 +1,17 @@
+parameters:
+  param-x:
+  param-y:
+
+jobs:
+  - deployment: deployment
+    environment: ${{ parameters.param-y }}
+    variables:
+      - group: MYGRP-${{ parameters.param-y }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - bash: echo "Hi"
+              env:
+                var1: "My Value"
