@@ -1,0 +1,74 @@
+trigger: none
+
+#name of pipeline run
+name: LoadingApp-${{ parameters.applicationName }} - $(Rev:.r)
+
+parameters:
+ - name: SelectEnv
+   displayName: Environment
+   type: string
+   values:
+     - dev
+     - uat
+
+- name: MyXParam
+  default: false
+  type: boolean
+
+stages:
+  - stage: Display
+    displayName: Display
+    pool: MY-POOL
+    jobs:
+    - job: JOB1
+      steps:
+      - checkout: self
+
+      - task: Bash@3
+        displayName: STEP
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "Hola !"
+
+
+  # when env is dev
+  - ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(parameters['SelectEnv'], 'dev')) }}:
+    - stage: LoadingApp_${{ parameters.SelectEnv }}
+      displayName: "${{ parameters.SelectEnv }} LoadingApp: ${{ parameters.applicationName }}"
+      pool: MY-POOL
+      jobs:
+        - ${{ if eq(parameters.MyXParam, true) }}:
+          - template: ./templates/temp1.yaml
+            parameters:
+              param-x: $(param-x)
+              param-y: ${{ parameters.SelectEnv }}
+
+        - ${{ if not(eq(parameters.MyXParam, true)) }}:
+          - template: ./templates/temp2.yaml
+            parameters:
+              param-x: $(param-x)
+              param-y: ${{ parameters.SelectEnv }}
+
+
+# when env is not dev
+  - ${{ if and(ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(parameters['SelectEnv'], 'dev')) }}:
+    - stage: Stage-Y
+      pool: MY-POOL
+      jobs:
+         - template: ./templates/temp3.yaml
+           parameters:
+             param-x: $(param-x)
+             param-y: ${{ parameters.SelectEnv }}
+
+  - stage: Dummy
+    dependsOn: Display
+    condition: succeeded('Display')
+    displayName: Dummy
+    pool: MY-POOL
+    jobs:
+    - job: JOB1
+      steps:
+      - checkout: self
+      - bash: echo "Hi"
+
