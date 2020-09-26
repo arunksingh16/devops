@@ -7,8 +7,14 @@ git status
 
 ```
 
+gitignore 
 
- update your .gitconfig file
+```
+https://github.com/github/gitignore
+```
+
+
+update your .gitconfig file
 
 ```
 git config --global --list
