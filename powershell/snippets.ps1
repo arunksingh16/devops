@@ -24,3 +24,6 @@ $LASTEXITCODE
 #data type
 $num = 1
 $num.GetType().name
+
+# LIST ALL CMD AVAILABLE
+Get-Command 
