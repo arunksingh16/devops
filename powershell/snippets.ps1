@@ -27,3 +27,7 @@ $num.GetType().name
 
 # LIST ALL CMD AVAILABLE
 Get-Command 
+
+
+# .NET version
+(Get-ItemProperty "HKLM:SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full").Release -ge 460798
