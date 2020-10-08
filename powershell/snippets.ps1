@@ -40,3 +40,23 @@ Get-Command
 # list 
 Get-ChildItem Env:TEMP
 
+# deleting a service
+$service = Get-WmiObject -Class Win32_Service -Filter "Name='Tomcat8'"
+$service.delete()
+sc delete "Service Name"
+
+
+# execution policy and scope
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+Get-ExecutionPolicy -List
+
+# port to process mapping
+Get-Process -Id (Get-NetTCPConnection -LocalPort 8081).OwningProcess
+netstat -ano | findStr "8080"
+tasklist /fi "pid eq 2216"
+netstat -aon | findstr '[port_number]'
+
+# stop process
+$P = Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess; Stop-Process $P.Id
+
+
