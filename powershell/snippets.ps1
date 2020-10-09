@@ -59,4 +59,5 @@ netstat -aon | findstr '[port_number]'
 # stop process
 $P = Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess; Stop-Process $P.Id
 
-
+# test path
+Test-Path
