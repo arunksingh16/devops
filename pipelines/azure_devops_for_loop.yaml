@@ -1,0 +1,65 @@
+# for loop 
+
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+- name: nodes
+  displayName: node names
+  type: string
+  default: node-1
+  values:
+  - node-1
+  - node-2
+  - node-3
+
+variables:
+ - name: rg_name
+   value: "rg-devops"
+ - name: vn_name
+   value: "vn-devops"
+ - name: vn_sub_name
+   value: "vn-sub1-devops"
+
+steps:
+- task: replacetokens@3
+  inputs:
+    targetFiles: 'arm_vn_temp_param.yaml'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '##('
+    tokenSuffix: ')##'
+    useLegacyPattern: false
+    enableTelemetry: true
+
+- script: cat arm_vn_temp_param.yaml
+  displayName: 'Run a one-line script'
+
+- ${{ each parameter in parameters }}:
+  - script: echo ${{ parameter.nodes }}
+
+  - bash: |
+      FOO="${{ parameters.nodes }}"
+      echo "##vso[task.setvariable variable=FOO;isOutput=true]$FOO"
+    name: mystep
+
+  - bash: |
+      echo "$(mystep.FOO)"
+  - task: replacetokens@3
+    inputs:
+      targetFiles: '**/*_param.yaml'
+      encoding: 'auto'
+      writeBOM: true
+      actionOnMissing: 'warn'
+      keepToken: false
+      tokenPrefix: '##('
+      tokenSuffix: ')##'
+      useLegacyPattern: false
+      enableTelemetry: true
+
+  - script: cat arm_vm_master_temp_param.yaml
+    displayName: 'Run a one-line script'
