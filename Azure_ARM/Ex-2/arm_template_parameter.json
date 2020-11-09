@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_node_1_name": {
+            "value": null
+        },
+        "virtualNetworks_vn_devops_name": {
+            "value": null
+        },
+        "networkInterfaces_node_1694_name": {
+            "value": null
+        },
+        "publicIPAddresses_node_1_ip_name": {
+            "value": null
+        },
+        "schedules_shutdown_computevm_node_1_name": {
+            "value": null
+        }
+    }
+}
