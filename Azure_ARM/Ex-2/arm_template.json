@@ -34,7 +34,7 @@
                 "name": "Basic"
             },
             "properties": {
-                "ipAddress": "13.82.94.54",
+                "ipAddress": "10.24.24.24",
                 "publicIPAddressVersion": "IPv4",
                 "publicIPAllocationMethod": "Static",
                 "idleTimeoutInMinutes": 4,
