@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "eastus"
+        },
+        "networkInterfaceName": {
+            "value": "node-1941"
+        },
+        "subnetName": {
+            "value": "subnet-1"
+        },
+        "virtualNetworkId": {
+            "value": "/subscriptions/0259fbe9-35b0-42dc-b35b-faae1754d42d/resourceGroups/rg-devops/providers/Microsoft.Network/virtualNetworks/vn-devops"
+        },
+        "publicIpAddressName": {
+            "value": "node-1-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        },
+        "publicIpAddressSku": {
+            "value": "Basic"
+        },
+        "virtualMachineName": {
+            "value": "node-1"
+        },
+        "virtualMachineComputerName": {
+            "value": "node-1"
+        },
+        "virtualMachineRG": {
+            "value": "rg-devops"
+        },
+        "osDiskType": {
+            "value": "Premium_LRS"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B1s"
+        },
+        "adminUsername": {
+            "value": "dev"
+        },
+        "adminPassword": {
+            "value": null
+        },
+        "autoShutdownStatus": {
+            "value": "Enabled"
+        },
+        "autoShutdownTime": {
+            "value": "23:00"
+        },
+        "autoShutdownTimeZone": {
+            "value": "UTC"
+        },
+        "autoShutdownNotificationStatus": {
+            "value": "Disabled"
+        },
+        "autoShutdownNotificationLocale": {
+            "value": "en"
+        }
+    }
+}
