@@ -61,3 +61,6 @@ $P = Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess; Stop-
 
 # test path
 Test-Path
+
+# find port mapping
+Get-Process -Id (Get-NetTCPConnection -LocalPort 80).OwningProcess
