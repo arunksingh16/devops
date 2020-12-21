@@ -9,6 +9,10 @@ $PSVERSIONTABLE.GetType()
 #True     True     Hashtable                                System.Object
 
 
+# groups attached with userid
+(Get-ADUser userName –Properties MemberOf).MemberOf
+
+
 # list old alias 
 Get-Alias
 
