@@ -23,9 +23,11 @@ spec:
             containerPort: 50000
         volumeMounts:
           - name: jenkins-vol
-            mountPath: /var/jenkins_vol
+            mountPath: /var/jenkins_home
       volumes:
         - name: jenkins-vol
           hostPath:
             path: /opt/jenkins
             type: Directory
+
+# make sure hostpath /opt/jenkins is available on every node with proper privilages.
