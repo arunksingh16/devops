@@ -28,3 +28,16 @@ send logs to file > /proc/self/fd/1
 openssl s_client -showcerts -connect server:443
 openssl s_client -showcerts -cipher TLS_DHE_RSA_WITH_AES_256_CBC_SHA -connect server:443
 ```
+
+### PowerShell
+
+
+```
+# Path 
+$env:Path +=";C:\helm-canary-windows-amd64\"
+$env:Path -split ';'
+# group details
+$id = [Security.Principal.WindowsIdentity]::GetCurrent()
+$groups = $id.Groups | foreach-object {$_.Translate([Security.Principal.NTAccount])}
+$groups | select * | Select-String -Pattern demo-pattern
+Get-Alias -Definition Invoke-WebRequest | Format-Table -AutoSize
