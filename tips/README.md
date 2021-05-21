@@ -20,3 +20,11 @@ These are just symlinked to /proc/self/fd/[012] so you can directly send logs to
 
 send logs to file > /proc/self/fd/1
 ```
+
+
+### OpenSSL
+
+```
+openssl s_client -showcerts -connect server:443
+openssl s_client -showcerts -cipher TLS_DHE_RSA_WITH_AES_256_CBC_SHA -connect server:443
+```
