@@ -29,6 +29,17 @@ openssl s_client -showcerts -connect server:443
 openssl s_client -showcerts -cipher TLS_DHE_RSA_WITH_AES_256_CBC_SHA -connect server:443
 ```
 
+
+### kubernetes configmap prints "/n/t" 
+
+```
+sed -i -E 's/[[:space:]]+$//g' data.conf
+
+sed -i 's/\t/     /g' file.txt
+
+```
+
+
 ### PowerShell
 
 
