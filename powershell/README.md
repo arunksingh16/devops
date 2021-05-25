@@ -14,3 +14,11 @@ Get-ADUser -Filter 'Name -like "ACCNT_NAME"' | Format-Table Name,SamAccountName 
 
 Get-ADUser -Identity <ACCNT_NAME> -Properties * | ft Name,Enabled,whenChanged,PasswordLastSet,PasswordExpired,LockedOut,AccountLockoutTime
 ```
+
+
+### Process Details
+
+
+```
+Get-Process | Select-Object -Property 'Id','StartTime','HandleCount' | Where-Object -FilterScript { $_.Id -eq "1"  } | Format-Table -AutoSize
+```
