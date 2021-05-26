@@ -22,3 +22,31 @@ Get-ADUser -Identity <ACCNT_NAME> -Properties * | ft Name,Enabled,whenChanged,Pa
 ```
 Get-Process | Select-Object -Property 'Id','StartTime','HandleCount' | Where-Object -FilterScript { $_.Id -eq "1"  } | Format-Table -AutoSize
 ```
+
+
+### using covert-to-html
+```
+$Header = @"
+<html>
+<head>
+<title>test</title>
+<style type='text/css'>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+}
+</style>
+</head>
+
+<body>
+$VFront
+</body>
+</html>
+"@ 
+
+'acc1','acc2' | Get-ADUser -Properties * | ConvertTo-Html -Head $Header -Property Name,Enabled,whenChanged,PasswordLastSet | Out-File -FilePath index.html
+
+```
