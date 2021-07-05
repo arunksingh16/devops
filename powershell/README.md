@@ -50,3 +50,15 @@ $VFront
 'acc1','acc2' | Get-ADUser -Properties * | ConvertTo-Html -Head $Header -Property Name,Enabled,whenChanged,PasswordLastSet | Out-File -FilePath index.html
 
 ```
+
+
+### working with trusted hosts on windows server
+
+```
+# listing it
+Get-Item WSMan:\localhost\Client\TrustedHosts
+(Get-Item WSMan:\localhost\Client\TrustedHosts).value
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value <servername> -Force -Concatenate
+```
+
+
