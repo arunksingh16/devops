@@ -1,5 +1,11 @@
 ## Openssl Important Commands
 
+List Supported Protocols 
+```
+openssl ciphers -v | awk '{print $2}' | sort | uniq
+```
+
+
 Test connectivity to an https service.
 
 ```
@@ -56,3 +62,5 @@ fi
 sleep $DELAY
 done
 ```
+
+
