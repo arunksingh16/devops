@@ -39,3 +39,30 @@ git checkout dev
 git branch -d YYYY-MM-DD
 
 ```
+
+## before commit
+
+```
+git pull origin master
+git push origin master
+< > <  > <remote> <current>
+```
+
+## Tracked Files
+```
+git ls-files
+```
+
+## unstage file
+```
+git reset HEAD <file>
+```
+
+## trace commit
+
+```
+git log <file name>
+git log --all --graph --decorate --oneline
+git show <id>
+
+```
