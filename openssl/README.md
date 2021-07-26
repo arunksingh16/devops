@@ -46,7 +46,14 @@ openssl x509 -text -noout -in <certificate-file> -certopt no_subject,no_header,n
 openssl s_client -showcerts -connect server:443
 openssl s_client -showcerts -cipher TLS_DHE_RSA_WITH_AES_256_CBC_SHA -connect server:443
 
+# You can read the contents of a PEM certificate (cert.crt) 
+ 
+openssl x509 -in cert.crt -text
+openssl pkcs12 -in cert.crt -info
+
 ```
+
+
 Certificate Conversion
 
 ```
