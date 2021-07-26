@@ -5,6 +5,11 @@ List Supported Protocols
 openssl ciphers -v | awk '{print $2}' | sort | uniq
 ```
 
+DEBUG
+```
+openssl s_client -cipher ECDHE-RSA-AES256-GCM-SHA384 -connect server:443 --debug -msg -tls1_2
+
+```
 
 Test connectivity to an https service.
 
