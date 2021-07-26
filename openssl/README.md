@@ -112,7 +112,8 @@ system_default = system_default_section
 
 [system_default_section]
 MinProtocol = TLSv1.2
-CipherString = DEFAULT:@SECLEVEL=2
+MinProtocol = DTLSv1.2
+CipherString = DEFAULT:@SECLEVEL=4
 Ciphersuites = TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256
 Options = ServerPreference,PrioritizeChaCha
 ```
