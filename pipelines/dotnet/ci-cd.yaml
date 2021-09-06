@@ -1,0 +1,181 @@
+# Arun: CI/CD Pipeline for .NET Application 
+
+
+# main/master branch trigger 
+trigger: none
+  branches:
+    include:
+      - master
+
+parameters:
+- name: 'BuildApp'
+  displayName: 'Build App'
+  default: false
+  type: boolean
+
+- name: 'DeployApp'
+  displayName: 'Deploy App'
+  default: false
+  type: boolean
+
+variables:
+  - name: isMainBranch
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  - name: isReleaseBranch
+    value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/releases/')]
+  - name: isFeatureBranch
+    value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/features/')]
+  - name: BuildPackage
+    value: $(Build.BuildNumber)
+
+
+stages:
+- stage: Build
+  condition: eq('${{ parameters.BuildApp }}', true)
+  variables:
+  - name: solution
+    value: '**/appbuild.sln'
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration
+    value: 'Release'
+
+  jobs:
+  - job: Build
+    pool: 
+      name: MS-POOL
+    variables:
+        solution: '**/app/app.sln'
+        webproject: '**/app/webproject/*.csproj'
+        apiproject: '**/app/apiproject/*.csproj'
+        tstproject: '**/app/tstproject/*.csproj'
+        buildPlatform: 'Any CPU'
+        buildConfiguration: 'Release'
+
+    steps:
+    - task: NuGetToolInstaller@1
+      displayName: Nuget tool installer
+      # inputs:
+      #   versionSpec: '5.9.1'
+
+    - task: DotNetCoreCLI@2
+      displayName: dotnet restore
+      inputs:
+        command: restore
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+        vstsFeed: '<projectName>/<feedName>'
+        includeNuGetOrg: true
+
+    # building overall solution
+    - task: MSBuild@1
+      displayName: Build Solution
+      inputs:
+        solution: '$(solution)'
+        msbuildArchitecture: 'x64'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/app /p:Configuration=$(buildConfiguration)'
+        
+     # building indivisual webproject
+    - task: MSBuild@1
+      displayName: Build webproject
+      inputs:
+        solution: '$(webproject)'
+        msbuildArchitecture: 'x64'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/webproject /p:Configuration=$(buildConfiguration)'
+
+     # building indivisual apiproject
+    - task: MSBuild@1
+      displayName: Build apiproject
+      inputs:
+        solution: '$(apiproject)'
+        msbuildArchitecture: 'x64'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/apiproject /p:Configuration=$(buildConfiguration)'
+
+     # building indivisual tstproject
+    - task: MSBuild@1
+      displayName: Build tstproject
+      inputs:
+        solution: '$(tstproject)'
+        msbuildArchitecture: 'x64'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)/tstproject /p:Configuration=$(buildConfiguration)'
+
+    - task: VisualStudioTestPlatformInstaller@1
+      displayName: Test platform installer
+      inputs:
+        packageFeedSelector: 'nugetOrg'
+        versionSelector: 'latestPreRelease'
+
+    - task: VSTest@2
+      displayName: Unit testing
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+            **\*test*.dll
+            !**\*TestAdapter.dll
+            !**\obj\**
+        searchFolder: '$(Build.ArtifactStagingDirectory)/tstproject'
+        vsTestVersion: 'toolsInstaller'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+    
+    - task: ArchiveFiles@2
+      displayName: Archive
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/webproject'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/webproject/webproject-$(Build.BuildNumber).zip'
+        replaceExistingArchive: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish web build artifacts
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/webproject/webproject-$(Build.BuildNumber).zip'
+        ArtifactName: 'webproject'
+        publishLocation: 'Container'
+        
+    #########################################
+
+    # if you want to upload this task to any arifact management system then do it here.
+    
+    #########################################
+
+
+- stage: Deployment
+  condition: and(eq(variables.isMainBranch, true), eq('${{ parameters.DeployApp }}', 'True'))
+  jobs :
+  - deployment: App_Deployment
+    displayName: Deploy Application
+    pool:
+      name: MS-POOL
+    environment: 'DEV'
+    workspace:
+         clean: all
+    strategy:
+       # simplest deployment strategy I am using
+        runOnce:
+          deploy:
+            steps:    
+            - checkout: none
+            - task: DownloadBuildArtifacts@0
+              displayName: Download artifacts
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'webproject'
+                downloadPath: '$(Agent.BuildDirectory)/webproject'
+
+            - task: ExtractFiles@1
+              inputs:
+                  archiveFilePatterns: '$(Agent.BuildDirectory)/webproject/webproject-$(Build.BuildNumber).zip'
+                  destinationFolder: '$(System.DefaultWorkingDirectory)/webproject/'
+                  cleanDestinationFolder: true
+                  overwriteExistingFiles: false
