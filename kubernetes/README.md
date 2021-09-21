@@ -1,0 +1,55 @@
+
+## kubectl output
+
+
+Sorting using Kubectl
+
+```
+kubectl get pods -o wide --sort-by=.spec.nodeName
+
+```
+
+Switch 
+
+```
+alias kc='kubectl config use-context'
+alias kn='kubectl config set-context `kubectl config current-context` --namespace'
+
+```
+
+Bash format https://twitter.com/micahhausler/status/785833744863268871
+
+```
+NORMAL="\[\033[00m\]"
+BLUE="\[\033[01;34m\]"
+RED="\[\e[1;31m\]"
+YELLOW="\[\e[1;33m\]"
+GREEN="\[\e[1;32m\]"
+PS1_WORKDIR="\w"
+PS1_HOSTNAME="\h"
+PS1_USER="\u"
+
+__kube_ps1()
+{
+    CONTEXT=$(kubectl config current-context)
+    if [ -n "$CONTEXT" ]; then
+        case "$CONTEXT" in
+          *prod*)
+            echo "${RED}(k8s: ${CONTEXT})"
+            ;;
+          *test*)
+            echo "${YELLOW}(k8s: ${CONTEXT})"
+            ;;
+          *)
+            echo "${GREEN}(k8s: ${CONTEXT})"
+            ;;
+        esac
+    fi
+}
+
+export PROMPT_COMMAND='PS1="${GREEN}${PS1_USER}@${PS1_HOSTNAME}${NORMAL}:$(__kube_ps1)${BLUE}${PS1_WORKDIR}${NORMAL}\$ "'
+```
+
+Imp Links
+ https://github.com/so0k/powerline-kubernetes
+ 
