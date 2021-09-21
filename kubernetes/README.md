@@ -51,5 +51,6 @@ export PROMPT_COMMAND='PS1="${GREEN}${PS1_USER}@${PS1_HOSTNAME}${NORMAL}:$(__kub
 ```
 
 Imp Links
- https://github.com/so0k/powerline-kubernetes
- 
+- https://github.com/so0k/powerline-kubernetes
+- https://gist.github.com/so0k/42313dbb3b547a0f51a547bb968696ba
+- 
