@@ -1,1 +1,33 @@
+parameters:
+- name: var2
+  type: string
+- name: env
+  type: string
+- name: pool
+  type: string
 
+jobs:
+
+- job: JOBX
+  displayName: JOBX
+  pool: ${{ parameters.pool }}
+  variables:
+  - group: ${{ parameters.env }}-vg-system
+  steps:
+  - checkout: none          
+  - bash: 
+
+- job: JOBY
+  displayName: JOBY
+  steps:   
+  - checkout: none
+  - bash:
+
+- job: JOBZ
+  displayName: JOBY
+  dependsOn: 
+  - JOBX
+  condition: always()
+  steps:   
+  - checkout: none          
+  - bash:
