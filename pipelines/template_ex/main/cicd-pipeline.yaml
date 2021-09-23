@@ -1,0 +1,38 @@
+# template based pipeline
+trigger:
+  branches:
+    include:
+    - features/*
+    - releases/*
+
+variables:
+  var1: dummy
+
+stages:
+     
+- stage: CIBuild
+  displayName: CI
+  jobs:
+  - template: ./templates/ci.yml
+    parameters:
+      var1: ${{ variables.var1 }}
+      
+- stage: DEV
+  displayName: Deploy to DEV
+  dependsOn: CIBuild
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  jobs:
+  - template: ./templates/cd.yml
+    parameters:
+      env: 'dev'
+      var2: xyz
+
+- stage: UAT
+  displayName: Deploy to UAT
+  dependsOn: DEV
+  condition: succeeded() 
+  jobs:
+  - template: ./templates/cd.yml
+    parameters:
+      env: 'uat'
+      var2: abc
