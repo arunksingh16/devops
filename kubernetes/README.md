@@ -1,9 +1,17 @@
 
 ## kubectl output
 
+List the API versions that are available
+```
+kubectl api-versions
+```
+
+full schema for K8s objects
+```
+kubectl explain services --recursive
+```
 
 Sorting using Kubectl
-
 ```
 kubectl get pods -o wide --sort-by=.spec.nodeName
 
