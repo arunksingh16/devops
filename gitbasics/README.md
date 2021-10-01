@@ -82,6 +82,8 @@ git show <id>
 ## Merge conflicts
 
 
+## Merge / REBASE
+
 ## Graph
 
 ```
