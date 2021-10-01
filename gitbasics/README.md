@@ -1,10 +1,21 @@
 # Git Basics
 
+- Follow perfect commit, commit those files or part of code which comes under one issue/fix or whatever, do not bulk commit!
+```
+git add <filename>
+# partial commit
+git add -p <filename> 
+```
+- Branches - Short running / long running 
+- Merge / Rebase
+- Branch Strategies GitHub Flow / GitFlow / Release Flow
+- Pull req (you can simply merge code but if you want to get it controlled and reviewed )
+
+
 
 
 ```
 git status
-
 ```
 
 gitignore 
@@ -45,6 +56,7 @@ git branch -d YYYY-MM-DD
 ```
 git pull origin master
 git push origin master
+git push --set-upstream origin master
 < > <  > <remote> <current>
 ```
 
@@ -65,4 +77,18 @@ git log <file name>
 git log --all --graph --decorate --oneline
 git show <id>
 
+```
+
+## Merge conflicts
+
+
+## Graph
+
+```
+
+git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+
+git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+
+git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 ```
