@@ -58,6 +58,12 @@ __kube_ps1()
 export PROMPT_COMMAND='PS1="${GREEN}${PS1_USER}@${PS1_HOSTNAME}${NORMAL}:$(__kube_ps1)${BLUE}${PS1_WORKDIR}${NORMAL}\$ "'
 ```
 
+# Azure File Share and Kubernetes 
+Yyou only can control the permission of the whole Azure file share when you mount it as the persistent volume on the pods. It does not support to change the permission of a special file inside the share. But you can control folder permission
+https://stackoverflow.com/questions/58301985/permissions-on-azure-file
+
+
+
 Imp Links
 - https://github.com/so0k/powerline-kubernetes
 - https://gist.github.com/so0k/42313dbb3b547a0f51a547bb968696ba
