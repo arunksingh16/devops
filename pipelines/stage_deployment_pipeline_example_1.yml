@@ -1,0 +1,89 @@
+# Build Name and Number:- https://docs.microsoft.com/en-us/azure/devops/pipelines/process/run-number?view=azure-devops&tabs=yaml
+
+name: MY_PIPELINE-$(TeamProject)-${{ parameters.yourENV }}-$(SourceBranchName)-$(Build.BuildId)-$(Date:ddMMyyyy)
+
+trigger: none
+
+pool:
+  name: $(YOUR-POOL-NAME)
+
+parameters:
+- name: 'yourENV'
+  default: DEV
+  type: string
+  values:
+  - DEV
+  - TST
+  - UAT
+
+- name: param1
+  displayName: "do the task"
+  default: false
+  type: boolean
+
+- name: param2
+  displayName: "do the task"
+  default: false
+  type: boolean
+
+- name: test
+  displayName: Run Tests?
+  type: boolean
+  default: false
+
+variables:
+  - group: ANY_GRP_NAME
+  - template: ANY_TEMP_NAME.yml
+  - ${{ if eq(parameters.yourENV, 'DEV') }}:
+    - group: ANY_GRP_NAME_1
+    - name: VAR
+      value: VAR_VAL
+
+stages:
+- stage: stage-1
+  condition: and(eq('${{ parameters.param2 }}', false),ne('${{ parameters.param1 }}', true))
+  jobs:
+  - deployment: deploymentJob
+    displayName: deploymentJob Display Name
+    pool:
+      name: $(YOUR-POOL-NAME)
+    environment: '${{ parameters.yourENV }}'
+    workspace:
+      clean: all
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                echo "Hello"
+          - script: echo building $(Build.BuildNumber)
+          - ${{ if eq(parameters.test, true) }}:
+            - script: echo "Running all the tests"
+
+- ${{ if eq(parameters.test, true) }}:
+  - stage: stage-2
+    pool: 
+     name: MY-POOL
+     demands: 'Agent.Name -equals myagent'
+    displayName: stage-2
+    dependsOn: stage-1
+    jobs:
+    - job: customjob
+    
+ # Steps are implemented by tasks. Tasks themselves are implemented as Node.js or PowerShell scripts
+      steps:
+      - script: echo "Hello"
+ 
+- stage: stage-3
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - job: customjob    
+    steps:
+    - script: echo "Hello"
+    - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
+      displayName: 'Write build info'
+      workingDirectory: $(System.DefaultWorkingDirectory)/buildinfo/stage_deployment_pipeline_example_1.yml
