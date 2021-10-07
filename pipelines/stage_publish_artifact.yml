@@ -1,0 +1,20 @@
+steps:
+- publish: $(System.DefaultWorkingDirectory)/bin/WebApp
+  artifact: WebApp
+  
+  
+steps:
+- publish: $(System.DefaultWorkingDirectory)/bin/WebApp
+  artifact: WebApp
+ 
+steps:
+- task: DownloadPipelineArtifact@2
+  inputs:
+    artifact: WebApp
+    patterns: '**/*.js'
+    path: $(Build.SourcesDirectory)/bin
+ 
+steps:
+- task: DownloadPipelineArtifact@2
+  inputs:
+    patterns: '**/*.zip'
