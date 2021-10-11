@@ -14,6 +14,21 @@ Continuous Deployment is closely related to Continuous Integration and refers to
 
 ## workstation
 https://ohmyz.sh/#install
+</p>
+VS Code Specifics
+</p>
+
+- ctrl + B = to hide navigation bar
+- ctrl + shift + p = command pallet
+- ctrl + tab = toggle between files
+
+</p>
+
+`Imp Extentions`
+- polacode
+- bracket pair 
+- prettier
+- markdown pdf
 
 
 ## Folders explained
