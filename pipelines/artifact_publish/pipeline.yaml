@@ -1,0 +1,69 @@
+trigger:
+  branches:
+    include:
+    - master
+    - features/*
+    - releases/*
+    
+    
+stages:
+- stage: Build
+  displayName: Build
+
+  jobs:
+  - job: Build
+    variables:
+      solution: '$(System.DefaultWorkingDirectory)/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+      unitTestDll: '**/test/UnitTests.dll'
+
+    steps:
+    - task: NuGetToolInstaller@1
+      inputs:
+        versionSpec: '5.9.1'
+
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
+
+    - task: VSBuild@1
+      displayName: Build
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:AutoParameterizationWebConfigConnectionStrings=False /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(Build.ArtifactStagingDirectory)"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)/buildpack
+          Compress-Archive -Path $(System.DefaultWorkingDirectory)/buildpack/* -DestinationPath $(System.DefaultWorkingDirectory)/buildpack-$(Build.BuildId).zip
+      displayName: Compress
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/buildpack-$(Build.BuildId).zip'
+        ArtifactName: 'buildpack'
+        publishLocation: 'Container'
+        
+- stage: Download
+  dependsOn: Build
+  jobs:
+  - deployment: Download
+    displayName: Download
+    environment: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'buildpack'
+              downloadPath: '$(System.ArtifactsDirectory)'
