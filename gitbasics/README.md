@@ -2,9 +2,9 @@
 
 - Follow perfect commit, commit those files or part of code which comes under one issue/fix or whatever, do not bulk commit!
 ```
-git add <filename>
+$ git add <filename>
 # partial commit
-git add -p <filename> 
+$ git add -p <filename> 
 ```
 - Branches - Short running / long running 
 - Merge / Rebase
@@ -12,85 +12,100 @@ git add -p <filename>
 - Pull req (you can simply merge code but if you want to get it controlled and reviewed )
 
 
-
+#### To find all commits that added or removed the "hello"
 
 ```
-git status
+# list commit only
+$ git log -S "hell0" --source --all
+# list data in commit
+$ git log --all -p --reverse --source -S 'hell0'
+$ git log --color -p -S 'hell0'
+# setting alias
+$ git config --global alias.find '!git log --color -p -S '; git find hell0
 ```
 
-gitignore 
+#### To remove unwanted commit 
+```
+# assuming you are on a commit, The HEAD~1 means the commit before head.
+$ git reset --hard HEAD~1 
 
+# specific commit
+$ git reset --hard <sha1-commit-id>
+
+# if you have pushed that commit then
+$ git push origin HEAD --force
+
+```
+
+
+
+#### gitignore
 ```
 https://github.com/github/gitignore
 ```
 
 
-update your .gitconfig file
+#### update your .gitconfig file
 
 ```
-git config --global --list
-git config --global user.name "Firstname LastName"
-git config --global user.email "yourEmail@email.com"
-git config --global core.editor "yourFavoriteTextEditor"
+$ git config --global --list
+$ git config --global user.name "Firstname LastName"
+$ git config --global user.email "yourEmail@email.com"
+$ git config --global core.editor "yourFavoriteTextEditor"
 ```
 
-## flow can be followed
+#### Generic Flow
 
-
-do not work on master !
-
-
+- do not work on master !
 
 ```
-git checkout -b x-feature-work
-git checkout dev
-git merge x-feature-work
-git branch -d x-feature-work
-git checkout dev
-git branch -d YYYY-MM-DD
+$ git checkout -b x-feature-work
+$ git checkout dev
+$ git merge x-feature-work
+$ git branch -d x-feature-work
+$ git checkout dev
+$ git branch -d YYYY-MM-DD
 
 ```
 
-## before commit
+#### before commit
 
 ```
-git pull origin master
-git push origin master
-git push --set-upstream origin master
+$ git pull origin master
+$ git push origin master
+$ git push --set-upstream origin master
 < > <  > <remote> <current>
 ```
 
-## Tracked Files
+#### Tracked Files
 ```
-git ls-files
-```
-
-## unstage file
-```
-git reset HEAD <file>
+$ git ls-files
 ```
 
-## trace commit
-
+#### unstage file
 ```
-git log <file name>
-git log --all --graph --decorate --oneline
-git show <id>
-
+$ git reset HEAD <file>
 ```
 
-## Merge conflicts
-
-
-## Merge / REBASE
-
-## Graph
+#### trace commit
 
 ```
+$ git log <file name>
+$ git log --all --graph --decorate --oneline
+$ git show <id>
+```
 
-git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+#### Merge conflicts
 
-git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
 
-git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+#### Merge / REBASE
+
+#### Graph
+
+```
+$ git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+
+$ git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+
+$ git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 ```
