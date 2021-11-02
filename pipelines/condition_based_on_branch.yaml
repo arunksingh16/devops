@@ -1,0 +1,10 @@
+- ${{ if eq( variables['Build.SourceBranchName'], 'netshoot' ) }}:
+  - name: dockerimagename
+    value: netshoot
+  - name: tag
+    value: '$(Build.BuildId)'
+- ${{ if ne( variables['Build.SourceBranchName'], 'ubuntu/light' ) }}: 
+  - name: dockerimagename
+    value: ubuntu
+  - name: tag
+    value: 'light'
