@@ -39,6 +39,16 @@ sed -i 's/\t/     /g' file.txt
 
 ```
 
+### JAVA Args for Proxy
+```
+-Djava.net.useSystemProxies=true
+-Dhttp.proxyHost=10.10.10.10
+-Dhttp.proxyPort=8080
+-Dhttp.proxyUser=username
+-Dhttp.proxyPassword=password
+# https://docs.oracle.com/javase/6/docs/technotes/guides/net/proxies.html
+```
+
 
 ### PowerShell
 
