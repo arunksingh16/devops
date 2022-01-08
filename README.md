@@ -31,6 +31,15 @@ VS Code Specifics
 - markdown pdf
 
 
+## DevSecOps Reading Material 
+
+[A Curating list of the best DevSecOps resources and tooling](https://github.com/TaptuIT/awesome-devsecops/blob/main/readme.md)
+
+[Awesome Threat Modelling](https://github.com/hysnsec/awesome-threat-modelling)
+
+[Awesome Static Analysis](https://github.com/analysis-tools-dev/static-analysis/)
+
+
 ## Folders explained
 
 
