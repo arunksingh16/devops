@@ -34,77 +34,10 @@ VS Code Specifics
 ## Folders explained
 
 
-> #### **Azure_ARM**
->
-> - Azure ARM templates example
+#### **Azure_ARM**
+- Azure ARM templates example
 </br>
 
-
-> #### **azcli**
->
-> - Azure CLI Examples
-</br>
-
-> #### **curl**
->
-> - Curl Examples
-</br>
-
-> #### **gitbasics**
->
-> - Git Specific Knowledge
-</br>
-
-
-> #### **helm-cheatsheet**
->
-> - Helm Details
-</br>
-
-
-> #### **kubernetes**
->
-> - Deploying Jenkins using Kubernetes
-</br>
-
-
-> #### **openssl**
->
-> - OpenSSL Example 
-</br>
-
-
-> #### **pipelines**
->
-> - Azure DevOps Pipeline examples
-</br>
-
-
-> #### **powershell**
->
-> - Powershell Scripts
-</br>
-
-> #### **python**
->
-> - Python Scripts
-</br>
-
-> #### **shell**
->
-> - Shell Scripts
-</br>
-
-
-> #### **tips**
->
-> - Tips
-</br>
-
-> #### **windows**
->
-> - Azure Powershell
-</br>
 
 
 
