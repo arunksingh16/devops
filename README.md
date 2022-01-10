@@ -48,6 +48,9 @@ VS Code Specifics
 </br>
 
 
-
+## Scripting 
+Bash - for a short script that might need a for loop to do something repetitively.
+Perl - anything to do with some kind of text processing or file processing, especially if it's a one off. Just do a dirty nasty perl script and be done with it
+Python - If it's something you might want to do again or something very like it. Then at least you have a chance of being able to reuse the script.
 
 
