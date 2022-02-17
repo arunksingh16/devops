@@ -29,6 +29,7 @@ VS Code Specifics
 - bracket pair 
 - prettier
 - markdown pdf
+- cobalt theme
 
 
 ## DevSecOps Reading Material 
