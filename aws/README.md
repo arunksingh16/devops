@@ -16,3 +16,17 @@ $ aws --version
 #### aws-cli/2.2.41 Python/3.8.8 Linux/5.10.25-linuxkit docker/x86_64.amzn.2 prompt/off
 ##########################################################################
 ```
+
+## AWS CLI
+config location
+```
+cat <home>/.aws/config
+```
+
+```
+aws configure
+aws configure --profile trndev
+export AWS_PROFILE=trndev
+aws sts get-caller-identity
+
+
