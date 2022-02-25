@@ -17,6 +17,12 @@ $ aws --version
 ##########################################################################
 ```
 
+## AWS METADATA
+```
+curl http://169.254.169.254/latest/user-data
+curl http://169.254.169.254/latest/meta-data
+```
+
 ## AWS CLI
 config location
 ```
