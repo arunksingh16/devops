@@ -19,11 +19,20 @@ $ aws --version
 
 ## AWS METADATA
 ```
-curl http://169.254.169.254/latest/user-data
-curl http://169.254.169.254/latest/meta-data
+$ curl http://169.254.169.254/latest/user-data
+$ curl http://169.254.169.254/latest/meta-data
 ```
 
 ## AWS CLI
+
+export AWS_CLI_AUTO_PROMPT=on
+
+`--generate-cli-skeleton` parameter to create a full template for the object then use it as per your req
+```
+$ aws iam create-user --generate-cli-skeleton yaml-input > admin.yml
+$ aws iam create-user --cli-input-yaml file://admin.yml
+```
+
 config location
 ```
 cat <home>/.aws/config
