@@ -44,4 +44,10 @@ aws configure --profile trndev
 export AWS_PROFILE=trndev
 aws sts get-caller-identity
 
+#### AWS POLICY
+```
+$ aws iam list-policies --scope AWS
+$ aws iam list-policies --scope Local
+```
+
 
