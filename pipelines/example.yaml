@@ -1,0 +1,52 @@
+pool:
+  vmImage: 'ubuntu-19.04'
+
+schedules:
+- cron: "1 16 * * Wed"
+  displayName: CRONJOB
+  branches:
+    include:
+    - mybranch
+  always: true
+
+# additional repositories for templates
+resources:
+  repositories:
+  - repository: draft
+    type: github
+    endpoint: github.com_draft
+    name: draft
+    ref: refs/heads/master
+
+variables:
+- template: var.yml
+- name: xxxx
+  value: 'aaaa'
+
+parameters:
+- name: PARAM
+  displayName: PARAM
+  type: boolean
+  default: false
+
+
+stages:
+- stage: STG
+  displayName: 'STG'
+  jobs:
+  - job: XYZ
+    displayName: XYZ
+    steps:
+    - checkout: self
+      clean: true # FOR SEC THIS WILL CLEAN THINGS IN CASE OF BUILD AGENT IS GOING TO BE REUSED
+      submodules: true
+      persistCredentials: true
+
+    - task: Bash@3
+      name: dummy
+      displayName: dummy
+      inputs:
+        targetType: 'filePath'
+        filePath: './file/file.sh'
+      env:
+        PARAM: ${{ parameters.PARAM }}
