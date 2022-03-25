@@ -109,3 +109,14 @@ $ git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(
 
 $ git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 ```
+
+
+### Rebase
+```
+# check history
+$ git log --oneline
+# decide how many commits you want to rebase, lets do it 10
+$ git rebase -i HEAD~10
+# something wrong
+git rebase --abort
+```
