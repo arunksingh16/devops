@@ -46,6 +46,8 @@ A simple HTTP server that will return 200 OK - https://github.com/gruntwork-io/h
 
 open-source load testing tool - https://k6.io/docs/
 
+see public-ip `curl ifconfig.me`
+
 
 ## Scripting 
 Bash - for a short script that might need a for loop to do something repetitively.
