@@ -41,12 +41,10 @@ VS Code Specifics
 [Awesome Static Analysis](https://github.com/analysis-tools-dev/static-analysis/)
 
 
-## Folders explained
+## Ops Help
+A simple HTTP server that will return 200 OK - https://github.com/gruntwork-io/health-checker
 
-
-#### **Azure_ARM**
-- Azure ARM templates example
-</br>
+open-source load testing tool - https://k6.io/docs/
 
 
 ## Scripting 
