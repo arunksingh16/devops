@@ -1,0 +1,14 @@
+parameters:
+  - name: env
+    displayName: Environment
+    type: string
+    default: dev
+    values:
+      - stg
+      - prd
+      - qa
+
+
+variables:
+  - name: myDev
+    value: ${{ in(parameters.env, 'qa', 'stg') }}
