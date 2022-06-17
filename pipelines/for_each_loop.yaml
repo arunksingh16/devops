@@ -1,0 +1,42 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+  - name: env
+    default: A
+    values: 
+      - A
+      - B
+
+  - name: usersA
+    type: object
+    default:
+      - ASG: 'ASGName1'
+        AMI: 'AMIName1'
+      - ASG: 'ASGName2'
+        AMI: 'AMIName2'
+      - A
+  - name: usersB
+    type: object
+    default:
+      - ASG: 'ASGName4'
+        AMI: 'AMIName4'
+      - ASG: 'ASGName5'
+        AMI: 'AMIName5'
+
+steps:
+- ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(parameters['env'], 'A')) }}:
+  - ${{ each user in parameters.usersA }}:
+    - ${{ if eq(user.ASG, '') }}:
+      - script: echo 'User ${{ user }} has no email.'
+    - ${{ if ne(user.ASG, '') }}:
+      - script: echo 'User ${{ user.ASG }} with email ${{ user.AMI }}.'
+
+- ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(parameters['env'], 'B')) }}:
+  - ${{ each user in parameters.usersB }}:
+    - ${{ if eq(user.ASG, '') }}:
+      - script: echo 'User ${{ user }} has no email.'
+    - ${{ if ne(user.ASG, '') }}:
+      - script: echo 'User ${{ user.ASG }} with email ${{ user.AMI }}.'
