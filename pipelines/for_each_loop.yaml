@@ -40,3 +40,23 @@ steps:
       - script: echo 'User ${{ user }} has no email.'
     - ${{ if ne(user.ASG, '') }}:
       - script: echo 'User ${{ user.ASG }} with email ${{ user.AMI }}.'
+      
+      
+
+######## ex 2
+parameters:
+  - name: users
+    type: object
+    default:
+      - john
+      - jane
+      - bob
+
+steps:
+  - ${{ each user in parameters.users }}:
+    - script: create-user.sh ${{ user }}
+      displayName: 'Create user ${{ user }}'
+    - script: grant-database-access.sh ${{ user }}
+      displayName: 'Grant database access to ${{ user }}'
+    - script: grant-datafactory-access.sh ${{ user }}
+      displayName: 'Grant Data Factory access to ${{ user }}'  
