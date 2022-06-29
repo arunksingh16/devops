@@ -8,6 +8,10 @@ echo "Secret Data" > $(Agent.TempDirectory)/secret.txt
 
 ```
 
+### Azure DevOps GOOD MARKETPLACE PLUGINS
+https://marketplace.visualstudio.com/items?itemName=YodLabs.VariableTasks
+
+
 ### Stage Condition
 
 ```
