@@ -30,6 +30,7 @@ VS Code Specifics
 - prettier
 - markdown pdf
 - cobalt theme
+- restcient
 
 
 ## DevSecOps Reading Material 
