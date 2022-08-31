@@ -1,3 +1,5 @@
+# AWS
+
 ## AWS CLI USING DOCKER
 
 
@@ -52,4 +54,15 @@ aws sts get-caller-identity
 ```
 $ aws iam list-policies --scope AWS
 $ aws iam list-policies --scope Local
+```
+
+#### AWS CLI Examples
+- api gateway domain name api mapping
+```
+aws apigatewayv2 get-api-mappings --domain-name xxxxxx 
+```
+
+- pull name of api gateway using API-ID
+```
+aws apigatewayv2 get-apis --query 'Items[?ApiId==`xxxxxx`].Name' --output text
 ```
