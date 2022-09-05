@@ -66,3 +66,14 @@ aws apigatewayv2 get-api-mappings --domain-name xxxxxx
 ```
 aws apigatewayv2 get-apis --query 'Items[?ApiId==`xxxxxx`].Name' --output text
 ```
+
+- lambda list
+```
+aws lambda list-functions --region us-east-1 --query 'Functions[].FunctionName' --output text
+aws lambda list-functions --region us-east-1 --query 'Functions[?starts_with(FunctionName, `some-prefix`) == `true`].FunctionName' --output text
+```
+
+- lambda env
+```
+aws lambda get-function-configuration --function-name xxxxxx --query "Environment.Variables"
+```
