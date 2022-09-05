@@ -57,6 +57,7 @@ $ aws iam list-policies --scope Local
 ```
 
 #### AWS CLI Examples
+- https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html
 - api gateway domain name api mapping
 ```
 aws apigatewayv2 get-api-mappings --domain-name xxxxxx 
