@@ -1,0 +1,33 @@
+parameters:
+  XXX: "" 
+
+jobs:
+  - deployment: ABC
+    dependsOn: ABC
+    displayName: ABC
+    environment: ${{ parameters.XXX }}
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+              clean: true
+            
+
+            - script: |
+                if [ "$X" = "A" ]; then
+                    echo "##vso[task.setvariable variable=VAR_NAME]A"
+
+                elif [ "$X" = "B" ]; then
+                    echo "##vso[task.setvariable variable=VAR_NAME]B"
+                else
+                  echo "Not right"
+                fi
+
+            - script: | 
+                echo $MY_MAPPED_ENV_VAR
+              env:
+                MY_MAPPED_ENV_VAR: $(VAR_NAME)
+              displayName: value
