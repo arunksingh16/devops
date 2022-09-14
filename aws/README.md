@@ -78,3 +78,13 @@ aws lambda list-functions --region us-east-1 --query 'Functions[?starts_with(Fun
 ```
 aws lambda get-function-configuration --function-name xxxxxx --query "Environment.Variables"
 ```
+
+- ecr
+```
+export REPOSITORY_URI=$(aws ecr describe-repositories --query 'repositories[].[repositoryUri]' --output text)
+echo ${REPOSITORY_URI}
+export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+aws ecs create-cluster --cluster-name XXXX
+```
