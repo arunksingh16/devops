@@ -120,3 +120,36 @@ $ git rebase -i HEAD~10
 # something wrong
 git rebase --abort
 ```
+
+### file delete
+If you want to remove the file from the Git repository and the filesystem, use:
+```
+git rm file1.txt
+git commit -m "remove file1.txt"
+```
+But if you want to remove the file only from the Git repository and not remove it from the filesystem, use:
+```
+git rm --cached file1.txt
+git commit -m "remove file1.txt"
+```
+And to push changes to remote repo
+```
+git push origin branch_name
+```
+
+### branch delete
+To delete the local branch use one of the following:
+```
+git branch -d <branch_name>
+git branch -D <branch_name>
+```
+remote
+```
+git push <remote_name> --delete <branch_name>
+```
+
+Fetch changes from all remotes and locally delete 
+- remote deleted branches/tags etc --prune will do the job
+```
+git fetch --all --prune
+```
