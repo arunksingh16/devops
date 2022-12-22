@@ -89,11 +89,11 @@ aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS 
 aws ecs create-cluster --cluster-name XXXX
 ```
 - EC2
-
+```
 SN_DATE=$(date '+%Y-%m-%d')
 SN_DATE=$(date -d "-3 month" +"%Y-%m-%d")
 
 aws ec2 describe-snapshots --owner self --query "Snapshots[?StartTime <= '${SN_DATE}' && State == 'completed'].{Id:SnapshotId,VId:VolumeId,Size:VolumeSize,StartTime:StartTime,State:State}" --output text
 
 aws ec2 describe-snapshots --owner self --query "sum(Snapshots[?StartTime <= '${SN_DATE}' && State == 'completed'].VolumeSize.to_number(@))"
-
+```
