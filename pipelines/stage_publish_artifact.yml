@@ -18,3 +18,29 @@ steps:
 - task: DownloadPipelineArtifact@2
   inputs:
     patterns: '**/*.zip'
+
+#############################################
+jobs:
+- job: Build
+  steps:
+ 
+  - script: echo Building...
+    displayName: Build
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.ArtifactStagingDirectory)'
+      contents: '**/*.zip'
+      targetFolder: '$(Build.ArtifactStagingDirectory)/staging'
+
+- job: Deploy
+  dependsOn: Build
+  steps:
+  
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.ArtifactStagingDirectory)/staging'
+      contents: '**/*.zip'
+      targetFolder: '$(System.DefaultWorkingDirectory)/drop'
+
+  - script: echo Deploying...
+    displayName: Deploy
