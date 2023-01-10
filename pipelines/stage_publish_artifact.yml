@@ -1,23 +1,33 @@
-steps:
-- publish: $(System.DefaultWorkingDirectory)/bin/WebApp
-  artifact: WebApp
-  
-  
-steps:
-- publish: $(System.DefaultWorkingDirectory)/bin/WebApp
-  artifact: WebApp
- 
-steps:
-- task: DownloadPipelineArtifact@2
-  inputs:
-    artifact: WebApp
-    patterns: '**/*.js'
-    path: $(Build.SourcesDirectory)/bin
- 
-steps:
-- task: DownloadPipelineArtifact@2
-  inputs:
-    patterns: '**/*.zip'
+trigger:
+- main
+
+jobs:
+- job: Build
+  steps:
+  - checkout: none
+  - script: |
+      touch textfile
+      echo Building > textfile
+    displayName: Build
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/textfile'
+      artifact: 'drop'
+
+- job: Deploy
+  dependsOn: Build
+  steps:
+  - checkout: none
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: 'drop'
+      patterns: '**'
+      path: "$(System.DefaultWorkingDirectory)/"
+
+  - script: |
+      ls -la $(System.DefaultWorkingDirectory)/
+
+    displayName: Deploy
 
 #############################################
 jobs:
