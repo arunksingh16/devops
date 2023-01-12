@@ -97,3 +97,6 @@ aws ec2 describe-snapshots --owner self --query "Snapshots[?StartTime <= '${SN_D
 
 aws ec2 describe-snapshots --owner self --query "sum(Snapshots[?StartTime <= '${SN_DATE}' && State == 'completed'].VolumeSize.to_number(@))"
 ```
+
+Good Tool to review 
+- https://github.com/benkehoe/aws-sso-util
