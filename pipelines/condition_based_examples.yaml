@@ -8,3 +8,6 @@
     value: ubuntu
   - name: tag
     value: 'light'
+- ${{ if or( eq(parameters.env, 'DEV'), eq(parameters.environment, 'QA') ) }}:
+  - group: ms-npd
+
