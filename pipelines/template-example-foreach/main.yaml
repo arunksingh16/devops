@@ -1,0 +1,45 @@
+name: pipe-$(SourceBranchName)-$(Date:ddMMyyyy)
+
+# default pool
+pool:
+  vmImage: ubuntu-latest
+
+trigger: none
+
+pr: none
+
+schedules:
+- cron: "0 5 * * *"
+  displayName: Execute Every day 5 AM
+  branches:
+    include: 
+     - master
+  always: true
+
+
+parameters:
+- name: listOfEnv
+  type: object
+  default:
+  - stg
+  - prd
+
+jobs:
+- ${{ each env in parameters.listOfEnv }}:
+  - job: 
+    displayName: 'AWS: ${{ env }}'
+    variables:
+    - template: ./vars/${{ env }}.yml
+    - group: ${{ env }}
+    steps:
+    - checkout: none
+
+    - template: ./templates/refresh.yml
+      parameters:
+        ASG_NAME: "MY-ASG"
+        # variable syntax is called template expression. Template expression variables are processed at compile time and then overwritten (if defined) at runtime.
+        AWSConn: ${{ variables.AWSConn }}
+        AWSRegion: '${{ variables.AWSRegion }}'
+        env: ${{ env }}
+        warmup_time: "300"
+        MinHealthyPercentage: "50"
