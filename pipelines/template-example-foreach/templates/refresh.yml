@@ -1,0 +1,21 @@
+parameters:
+  ASG_NAME: ""
+  MinHealthyPercentage: ""
+  AWSConn: ""
+  AWSRegion: ""
+  env: ""
+  warmup_time: ""
+  
+
+steps:
+ 
+  - task: AWSShellScript@1
+    displayName: 'Refresh'
+    inputs:
+      awsCredentials: '${{ parameters.AWSConn }}'
+      regionName: '${{ parameters.AWSRegion }}'
+      scriptType: 'inline'
+      inlineScript: |
+        min_healthy_percentage=${{ parameters.MinHealthyPercentage }}
+        warmup_time=${{ parameters.warmup_time }}
+        aws autoscaling start-instance-refresh --auto-scaling-group-name ${{ parameters.ASG_NAME }} --preferences '{"MinHealthyPercentage": '${min_healthy_percentage}', "InstanceWarmup": '${warmup_time}'}' --output text
