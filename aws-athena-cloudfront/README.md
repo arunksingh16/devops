@@ -22,9 +22,15 @@ FROM cfn_l
 WHERE "date" BETWEEN DATE '2020-10-01' AND DATE '2020-10-31'
 group by uri
 ```
--- Using Timestamp
+- Using Timestamp
 ```
 WITH ds AS (SELECT *, parse_datetime( concat( concat( format_datetime(date, 'yyyy-MM-dd'), '-' ), time ),'yyyy-MM-dd-HH:mm:ss') AS datetime FROM cfn_l) 
 
 SELECT * FROM ds WHERE datetime BETWEEN timestamp '2023-02-02 15:00:00' AND timestamp '2023-02-02 16:00:00'
+```
+- Ceiling
+```
+SELECT "uri", count(*) as count, ceiling(sum(bytes)/(1024*1024*1024)) as bytes_dwnl
+FROM cloudfront_logs_v2
+WHERE "date" BETWEEN DATE '2022-12-01' AND DATE '2023-12-31'
 ```
