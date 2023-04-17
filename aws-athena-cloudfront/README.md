@@ -40,3 +40,17 @@ WITH ds AS (SELECT *, parse_datetime( concat( concat( format_datetime(date, 'yyy
 
 SELECT request_ip, uri, ceiling(sum(bytes)/(1024*1024*1024)) FROM ds WHERE datetime BETWEEN timestamp '2023-03-06 00:00:00' AND timestamp '2023-03-07 23:59:00' group by request_ip,URI
 ```
+- Download 
+```
+WITH ds AS 
+    (SELECT *,
+         parse_datetime( concat( concat( format_datetime(date,
+         'yyyy-MM-dd'), '-' ), time ),'yyyy-MM-dd-HH:mm:ss') AS datetime
+    FROM cloudfront_logs)
+SELECT uri, sum(bytes) as b
+FROM ds
+WHERE datetime
+    BETWEEN timestamp '2022-04-01 12:00:00'
+        AND timestamp '2022-04-01 23:59:59'
+        group by uri
+``` 
