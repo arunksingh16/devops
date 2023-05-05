@@ -10,4 +10,9 @@
     value: 'light'
 - ${{ if or( eq(parameters.env, 'DEV'), eq(parameters.environment, 'QA') ) }}:
   - group: ms-npd
-
+- ${{ if or( eq(parameters.env, 'DEV'), eq(parameters.environment, 'QA') ) }}:
+  - group: ms-npd
+- ${{ if notIn(parameters['XXX'], 'X', 'Y') }}:
+  - group: ms-npd
+- ${{ if in(parameters['XXX'], 'X', 'Y') }}:
+  - group: ms-npd
