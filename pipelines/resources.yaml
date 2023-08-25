@@ -1,0 +1,31 @@
+
+trigger: none
+
+resources:
+  repositories:
+    - repository: ado-test-2
+      type: github
+      endpoint: arunksingh16
+      name: arunksingh16/ado-test-2
+
+
+variables:
+  ref: $[ resources.repositories['ado-test-2'].ref ]
+  name: $[ resources.repositories['ado-test-2'].name ]
+  id: $[ resources.repositories['ado-test-2'].id ]
+  type: $[ resources.repositories['ado-test-2'].type ]
+  url: $[ resources.repositories['ado-test-2'].url ]
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+- checkout: ado-test-2
+- script: |
+    echo "$(ref)"
+    echo "$(name)"
+    echo "$(id)"
+    echo "$(type)"
+    echo "$(url)"
+  displayName: 'Run a one-line script'
