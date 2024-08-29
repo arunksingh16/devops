@@ -1,0 +1,40 @@
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get the release version
+        run: |
+
+          # Extract the release version from the branch name
+          release_version=$(echo "${{ github.ref }}" | sed -e 's/^refs\/heads\/release\///' -e 's/^refs\/heads\/releases\///' -e 's/^refs\/heads\/feature\///' -e 's/^refs\/heads\/features\///' -e 's/^refs\/heads\/bugfix\///')
+
+          # Check if the branch name matches the expected pattern
+          if [[ -z "$release_version" ]]; then
+            echo "ERROR: Branch name does not follow the expected pattern (release/<> or releases/<>)"
+            exit 1
+          fi
+          # Set the release version as an environment variable
+          export RELEASE_VERSION="$release_version"
+          # Print a confirmation message
+          echo "Release version: $RELEASE_VERSION"
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
+          # for testing branch
+          # Step 1: Remove the "refs/heads/" part
+          GITHUB_REF=${{ github.ref }}
+          CLEANED_REF=${GITHUB_REF#refs/heads/}
+          # Step 2: Replace all remaining "/" with "."
+          CLEANED_REF=$(echo "$CLEANED_REF" | tr '/' '.')
+          # Step 3: Append ".testing" to the cleaned ref
+          FINAL_REF="${CLEANED_REF}.testing" 
+          echo "FINAL_REF=" $FINAL_REF    
+          echo "FINAL_REF=$FINAL_REF" >> $GITHUB_ENV
+      - name: Tag Version
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/v_}
+          echo "Tag version: $TAG_VERSION"
+          echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
