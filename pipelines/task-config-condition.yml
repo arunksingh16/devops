@@ -1,0 +1,9 @@
+- task: AWSShellScript@1
+  displayName: "test"
+    inputs:
+      awsCredentials: ${{ variables.AWSCredentials }}
+      regionName: ${{ parameters.region }}
+      ${{ if and(ne(env, 'prd'), ne(env, 'sbx')) }}:
+          filePath: a.txt
+      ${{ else }}:
+          filePath: b.txt
