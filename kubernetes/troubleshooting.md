@@ -33,3 +33,15 @@ spec:
     kubernetes.io/hostname: ip-10-0-4-23.eu-west-1.compute.internal
 
 ```
+after that
+```
+kubectl wait --for=condition=Ready pod/smb-debug -n default --timeout=60s
+kubectl get secret smbcreds -n default -o jsonpath='{.data.username}' | base64 -d
+kubectl get secret smbcreds -n default -o jsonpath='{.data.password}' | base64 -d
+kubectl exec -it smb-debug -n default -- mkdir -p /mnt/test
+kubectl exec -it smb-debug -n default -- mount -t cifs -o username=domain\\fsuser,password=xxxx //10.0.3.62/ArunSMBTest /mnt/test
+kubectl exec -it smb-debug -n default -- ping -c 3 10.0.3.62
+kubectl exec -it smb-debug -n default -- apk add --no-cache samba-client
+# list mounts
+kubectl exec -it smb-debug -n default -- smbclient -L //10.0.3.62 -U domain\\fsuser%xxxx
+```
