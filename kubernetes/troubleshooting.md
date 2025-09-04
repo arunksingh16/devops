@@ -43,5 +43,6 @@ kubectl exec -it smb-debug -n default -- mount -t cifs -o username=domain\\fsuse
 kubectl exec -it smb-debug -n default -- ping -c 3 10.0.3.62
 kubectl exec -it smb-debug -n default -- apk add --no-cache samba-client
 # list mounts
-kubectl exec -it smb-debug -n default -- smbclient -L //10.0.3.62 -U domain\\fsuser%xxxx
+kubectl exec -it smb-debug -n default -- mount -t cifs -o username=domain\\fsuser,password=xxx //10.0.3.62/ArunSMBTest2 /mnt/test
+
 ```
